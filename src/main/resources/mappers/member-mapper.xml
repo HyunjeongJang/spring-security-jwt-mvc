@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.security.member.mapper.MemberMapper">
+
+	<select id="existsByMemberId" parameterType="String" resultType="boolean">
+		SELECT EXISTS (SELECT * FROM mydb.member WHERE member_id = #{memberId})
+	</select>
+
+	<select id="findByMemberId" parameterType="String" resultType="com.web.security.member.domain.Member">
+		SELECT * FROM mydb.member WHERE member_id = #{memberId}
+	</select>
+
+	<insert id="register" parameterType="com.web.security.member.domain.Member">
+		INSERT INTO mydb.member (
+			member_id,
+		    name,
+			password,
+			role
+		)
+		VALUES (
+				   #{memberId},
+		           #{name},
+				   #{password},
+				   #{role}
+			   )
+	</insert>
+
+
+</mapper>

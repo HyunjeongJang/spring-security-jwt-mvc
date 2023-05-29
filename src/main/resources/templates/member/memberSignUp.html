@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+<div>
+    <h1>회원가입</h1><br>
+    <form method="post" th:action="@{/member/register}" modelAttribute="MemberSignupRequest">
+        <table>
+            <tr>
+                <td class="table_text">
+                    아이디
+                </td>
+                <td class="table_input">
+                    <input type="text" id="memberId" name="memberId" class="form-control"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="table_text">
+                    비밀번호
+                </td>
+                <td class="table_input">
+                    <input type="password" id="password" name="password" class="form-control"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="table_text">
+                    이름
+                </td>
+                <td class="table_input">
+                    <input type="text" id="name" name="name" class="form-control">
+                </td>
+            </tr>
+
+        </table>
+        <button type="submit" class="btn btn-dark">회원가입</button>
+    </form>
+</div>
+
+
+</body>
+</html>

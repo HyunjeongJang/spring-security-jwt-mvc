@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+</head>
+<body>
+<h1>로그인</h1><br>
+<form method="post" th:action="@{/login}" modelAttribute="MemberSignupRequest">
+<!--    <div>-->
+<!--        <div th:text="${param.error}"></div>-->
+<!--        <div th:text="${param.message}"></div>-->
+<!--        &lt;!&ndash; 조건문 안먹음 &ndash;&gt;-->
+<!--        <span th:if="${param.error} == 'true'">-->
+<!--            <span th:text="${param.message}"></span>-->
+<!--        </span>-->
+<!--    </div>-->
+    <table>
+        <tr>
+            <td class="table_text">
+                아이디
+            </td>
+            <td class="table_input">
+                <input type="text" id="memberId" name="memberId" class="form-control"/>
+            </td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td class="table_text">
+                비밀번호
+            </td>
+            <td class="table_input">
+                <input type="password" id="password" name="password" class="form-control"/>
+            </td>
+        </tr>
+    </table>
+    <button type="submit" class="btn btn-dark">로그인</button>
+</form>
+</body>
+</html>
