@@ -17,7 +17,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
         JwtAuthenticationToken before = (JwtAuthenticationToken) authentication;
 
         String accessToken = before.getAccessToken();
@@ -25,9 +24,9 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             throw new InvalidAccessTokenException();
         }
 
-        long id = Long.parseLong(jwtHelper.extractSubject(accessToken));
+        long memberId = Long.parseLong(jwtHelper.extractSubject(accessToken));
         MemberRole role = MemberRole.valueOf(jwtHelper.extractRole(accessToken));
-        return JwtAuthenticationToken.afterOf(id, role);
+        return JwtAuthenticationToken.afterOf(memberId, role);
     }
 
     @Override

@@ -20,10 +20,7 @@ public class MyUserDetails implements UserDetails {
         return List.of(member.getRole());
     }
 
-    public long getId() {
-        return member.getId();
-    }
-
+    public long getId() { return member.getId(); }
     @Override
     public String getPassword() {
         return member.getPassword();

@@ -12,7 +12,7 @@ import java.util.Date;
 @Component
 public class JwtHelper {
 
-    private static final int ACCESS_TOKEN_VALIDITY = 30 * 60 * 1000;
+    private static final int ACCESS_TOKEN_VALIDITY = 60 * 1000;
     private static final int REFRESH_TOKEN_VALIDITY = 24 * 60 * 60 * 1000;
     @Value("${jwt.secret-key}") private String secretKey;
 

@@ -2,7 +2,10 @@ package com.web.security.security.common;
 
 import com.web.security.jwt.JwtAuthenticationFilter;
 import com.web.security.jwt.JwtAuthenticationProvider;
+import com.web.security.security.LoginAuthenticationFailureHandler;
 import com.web.security.security.LoginAuthenticationSuccessHandler;
+import com.web.security.security.exception.handler.CustomAccessDeniedHandler;
+import com.web.security.security.exception.handler.CustomAuthenticationEntryPoint;
 import com.web.security.security.service.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.ArrayList;
@@ -26,7 +30,11 @@ public class SecurityConfig {
 
 	private final MyUserDetailsService userDetailsService;
 	private final LoginAuthenticationSuccessHandler loginSuccessHandler;
+	private final LoginAuthenticationFailureHandler loginFailureHandler;
 	private final JwtAuthenticationProvider jwtAuthenticationProvider;
+	private final CustomAccessDeniedHandler accessDeniedHandler;
+	private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+
 	private static final List<String> DEFAULT_JWT_WHITE_LIST_URL = List.of("/", "/joinForm", "/member/register", "/loginForm", "/login");
 
 	public JwtAuthenticationFilter jwtAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -35,6 +43,7 @@ public class SecurityConfig {
 
 		JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(matcher);
 		jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
+		jwtAuthenticationFilter.setAuthenticationFailureHandler(new AuthenticationEntryPointFailureHandler(authenticationEntryPoint));
 		return jwtAuthenticationFilter;
 	}
 
@@ -53,8 +62,8 @@ public class SecurityConfig {
 			.and()
 
 			.authorizeHttpRequests(requests -> requests
-				.requestMatchers("/", "/joinForm", "/member/register").permitAll()
-				.requestMatchers("/board/**").hasAuthority("USER")
+				.requestMatchers("/", "/loginForm", "/login", "/joinForm", "/member/register").permitAll()
+				.requestMatchers("/user/**").hasAuthority("USER")
 				.requestMatchers("/admin/**").hasAuthority("ADMIN")
 				.anyRequest().authenticated()
 			)
@@ -64,12 +73,18 @@ public class SecurityConfig {
 				.usernameParameter("memberId")
 				.passwordParameter("password")
 				.successHandler(loginSuccessHandler)
-				.permitAll()
+				.failureHandler(loginFailureHandler)
 			)
 			.logout(LogoutConfigurer::permitAll)
+
 			.userDetailsService(userDetailsService)
 
 			.addFilterBefore(jwtAuthenticationFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
+
+			.exceptionHandling()
+			.accessDeniedHandler(accessDeniedHandler)
+			.and()
+
 			.build();
 	}
 

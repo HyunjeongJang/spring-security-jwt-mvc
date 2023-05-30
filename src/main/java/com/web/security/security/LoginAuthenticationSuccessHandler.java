@@ -38,11 +38,10 @@ public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessH
 
 		response.addCookie(accessTokenCookie);
 		if (role.equals(MemberRole.USER)) {
-			response.sendRedirect("/board");
+			response.sendRedirect("/user");
 		} else if (role.equals(MemberRole.ADMIN)) {
-			response.sendRedirect("/admin/memberList");
+			response.sendRedirect("/admin");
 		}
 	}
-
 
 }

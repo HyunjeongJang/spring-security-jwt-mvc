@@ -7,14 +7,14 @@
 <body>
 <h1>로그인</h1><br>
 <form method="post" th:action="@{/login}" modelAttribute="MemberSignupRequest">
-<!--    <div>-->
-<!--        <div th:text="${param.error}"></div>-->
-<!--        <div th:text="${param.message}"></div>-->
-<!--        &lt;!&ndash; 조건문 안먹음 &ndash;&gt;-->
-<!--        <span th:if="${param.error} == 'true'">-->
-<!--            <span th:text="${param.message}"></span>-->
-<!--        </span>-->
-<!--    </div>-->
+    <div>
+        <div th:text="${param.error}"></div>
+        <div th:text="${param.message}"></div>
+        <!-- 조건문 안먹음 -->
+        <span th:if="${param.error} == 'true'">
+            <span th:text="${param.message}"></span>
+        </span>
+    </div>
     <table>
         <tr>
             <td class="table_text">

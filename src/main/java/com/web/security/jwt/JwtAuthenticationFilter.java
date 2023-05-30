@@ -24,6 +24,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationException, IOException, ServletException {
+		Object NotFoundAccessTokenException;
 		String accessToken = Arrays.stream(req.getCookies())
 			.filter(cookie -> cookie.getName().equals("access_token"))
 			.findFirst()
@@ -34,16 +35,16 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 		return super.getAuthenticationManager().authenticate(before);
 	}
 
-	// 생략해도 됨 (기본 successfulHandler (sucessfulAuthentication) 에서 작동하는거랑 동일한 흐름)
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 											Authentication authResult) throws IOException, ServletException {
-
 		JwtAuthenticationToken afterOf = (JwtAuthenticationToken) authResult;
+
 		SecurityContextHolder.clearContext();
 		SecurityContext context = SecurityContextHolder.createEmptyContext();
 		context.setAuthentication(afterOf);
 		SecurityContextHolder.setContext(context);
+
 		chain.doFilter(request, response);
 	}
 
